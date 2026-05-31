@@ -1,0 +1,22 @@
+{
+  "title": "imgFlux",
+  "pages": [
+    "index",
+    "---Get Started---",
+    "1_installation",
+    "2_quickstart",
+    "3_configuration",
+    "---Processing---",
+    "4_url_structure",
+    "5_processing_options",
+    "---Pipeline---",
+    "6_request_lifecycle",
+    "8_error_troubleshooting",
+    "12_image_processing_pipeline",
+    "---Deployment---",
+    "7_caching",
+    "9_performance",
+    "10_deployment",
+    "11_prometheus_monitoring"
+  ]
+}

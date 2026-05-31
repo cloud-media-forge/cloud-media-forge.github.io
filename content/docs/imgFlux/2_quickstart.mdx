@@ -1,0 +1,100 @@
+---
+title: Quickstart
+---
+
+This walkthrough launches imgFlux locally, configures the required secrets, and exercises the public endpoints. It assumes you have completed the steps in [Installation](1_installation).
+
+## Minimal configuration
+
+imgFlux signs every request with an HMAC computed from `IMGFLUX_KEY` and `IMGFLUX_SALT`. Generate development-only values with OpenSSL.
+
+  ```bash
+  openssl rand -hex 32
+  ```
+
+```bash
+export IMGFLUX_KEY=<generated_key>
+export IMGFLUX_SALT=<generated_salt>
+```
+
+For early experiments you may also allow unsigned URLs:
+
+```bash
+export IMGFLUX_ALLOW_UNSIGNED=true
+```
+
+> **Production reminder:** Leave `IMGFLUX_ALLOW_UNSIGNED` unset (or `false`) outside of local development. See [URL Structure](4_url_structure) for signing guidance.
+
+## Starting the server (Docker-first)
+
+### Run the published image
+
+Start the official container with your freshly created secrets:
+
+```bash
+docker run \
+  --rm \
+  -p 8080:8080 \
+  -e IMGFLUX_KEY=<generated_key> \
+  -e IMGFLUX_SALT=<generated_salt> \
+  -e IMGFLUX_ALLOW_UNSIGNED=true \
+  -e IMGFLUX_LOG_LEVEL=imgFlux=info \
+  ghcr.io/cloud-media-forge/imgFlux:latest
+```
+
+Use `--env-file` to load additional configuration or mount volumes for caching. When deploying, replace the development values with secrets from your vault.
+
+### Run from source (optional)
+
+Prefer a native workflow? If you have `graphicsmagick` installed in your system, launch imgFlux through maven:
+
+```bash
+git clone https://github.com/cloud-media-forge/imgFlux.git
+cd imgFlux
+mvn run
+```
+
+By default, the server listens on `http://0.0.0.0:3000`. Adjust the bind address with `IMGFLUX_BIND`.
+
+## Issuing a transformation request
+
+With the server running, craft a development URL that resizes and converts an image to WebP:
+
+```bash
+curl "http://localhost:3000/${team}/600x400:trim/plain/https://https://cdn-icons-png.flaticon.com/512/25/25231.png" \
+  --output portrait.webp
+```
+
+- `unsafe` bypasses signature validation (allowed because `IMGFLUX_ALLOW_UNSIGNED=true`).
+- `ex:600:400` resizes and crops the source to match the target aspect ratio.
+- `@webp` triggers format conversion.
+
+Open `portrait.webp` in your image viewer to confirm the result. After this, check out [URL Structure](4_url_structure) for more information on how to sign URLs.
+
+## Inspecting available endpoints
+
+| Endpoint          | Description                                                                                                             |
+|-------------------|-------------------------------------------------------------------------------------------------------------------------|
+| `GET /status`     | Returns `{ "status": "ok" }` and an `X-Request-ID` header. Integrate this into liveness/readiness probes.               |
+| `GET /info/{...}` | Validates the URL signature, downloads the source image, and responds with JSON metadata (`width`, `height`, `format`). |
+| `GET /{...}`      | Full processing endpoint. The path encodes processing options and the source URL.                                       |
+| `GET /metrics`    | Exposes Prometheus metrics (request latency, processing duration, cache statistics, status code counters).              |
+
+If `IMGFLUX_SECRET` is set, include `Authorization: Bearer <token>` on `/info` and image requests.
+
+## Reviewing logs and metrics
+
+Logs are emitted via the configured tracing subscriber. Set `IMGFLUX_LOG_LEVEL=imgFlux=debug` to see detailed request flow. We suggest setting `IMGFLUX_LOG_LEVEL=imgFlux=info` in production. For metrics:
+
+```bash
+curl http://localhost:3000/metrics | head
+```
+
+Look for buckets such as `image_processing_duration_seconds` and counters like `processed_images_total`. Continue to [Prometheus Monitoring](11_prometheus_monitoring) for dashboard ideas.
+
+## Next steps
+
+- Understand configuration knobs in [Configuration](3_configuration).
+- Learn how URLs are structured and signed in [URL Structure](4_url_structure).
+- Explore the full list of processing directives in [Processing Options](5_processing_options).
+- Review the overall request flow in [Request Lifecycle](6_request_lifecycle) and dive deeper into transformations with [Image Processing Pipeline](12_image_processing_pipeline).

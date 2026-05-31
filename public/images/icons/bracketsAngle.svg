@@ -1,0 +1,19 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="BracketsAngle" clip-path="url(#clip0_12174_7715)">
+<path id="Vector" d="M10 5L3 16L10 27" stroke="url(#paint0_linear_12174_7715)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M22 5L29 16L22 27" stroke="url(#paint1_linear_12174_7715)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_12174_7715" x1="6.5" y1="5" x2="5.82233" y2="42.0869" gradientUnits="userSpaceOnUse">
+<stop stop-color="#3068EF"/>
+<stop offset="1" stop-color="#1322AC"/>
+</linearGradient>
+<linearGradient id="paint1_linear_12174_7715" x1="25.5" y1="5" x2="24.8223" y2="42.0869" gradientUnits="userSpaceOnUse">
+<stop stop-color="#3068EF"/>
+<stop offset="1" stop-color="#1322AC"/>
+</linearGradient>
+<clipPath id="clip0_12174_7715">
+<rect width="32" height="32" fill="white"/>
+</clipPath>
+</defs>
+</svg>

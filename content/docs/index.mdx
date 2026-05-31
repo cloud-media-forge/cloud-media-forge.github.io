@@ -1,0 +1,49 @@
+---
+title: Introduction
+description: MediaForge - High-Performance Multi-Media Forge Rest API for Cloud Native Applications
+---
+
+import { Card, Cards } from "@/components/card";
+import { LinkCard, LinkCards } from "@/components/link-card";
+import { Code, Server, Waypoints, Network } from 'lucide-react';
+import Logo from '@/public/images/logo.svg';
+
+
+import ArchitectureFlow from '@/components/architecture-flow';
+
+# Meet MediaForge
+
+**MediaForge** is the high-performance multi-media processing engine that sits between your customers and your object storage. It transforms images on the fly, resizing, cropping, and optimizing them in milliseconds, so you never have to manually resize picture or generate thumbnails again.
+
+Built with **JAVA** and **GraphicsMagick**, it delivers flash speed and solid security, serving optimized modern images (including WebP and AVIF) automatically.
+
+## How It Works
+
+MediaForge acts as a smart layer in your stack. Instead of serving heavy originals, your app requests a transformed version. MediaForge processes it instantly, caches the result, and delivers it to the user.
+
+<ArchitectureFlow />
+
+## Forge Image With MediaForge
+
+### 🚀 **Performance First**
+Written in **Java** and built on the asynchronous **SpringBoot** framework, imgFlux is designed for low latency and high throughput. It uses **graphicsmagick**, which consumes far less memory than standard alternatives like ImageMagick.
+
+### 🛡️ **Secure by Design**
+We take security seriously.
+- **HMAC Signatures:** Every URL is signed to prevent tampering and denial-of-service attacks.
+- **Strict Validation:** Checks file types and dimensions before processing begins.
+- **Rate Limiting:** Built-in guards to protect your infrastructure.
+
+
+### ☁️ **Production Ready**
+From comprehensive **Prometheus metrics** to structured JSON logs, imgFlux gives you full visibility into your image pipeline. It's container-native and ready for Kubernetes.
+
+## Solves Real Problems
+
+| Problem | The MediaForge Solution |
+| :--- | :--- |
+| **Storage Bloat** | Store only the original high-res image. Generate variants on demand. |
+| **Slow Load Times** | Automatically convert JPEGs/PNGs to modern, lightweight **WebP** or **AVIF**. |
+| **Complex Pipelines** | Replace brittle Lambda functions and batch jobs with a single, robust binary. |
+| **Security Risks** | Prevent "pixel flood" attacks and unverified uploads with signed URLs. |
+
