@@ -6,6 +6,9 @@ const withMDX = createMDX();
 const config = {
   output: 'export',
   reactStrictMode: true,
+  images: {
+    unoptimized: true,
+  },
   // Configure asset handling to allow .md files to be served
   webpack: (config) => {
     config.module.rules.push({
